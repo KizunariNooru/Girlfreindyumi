@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Girlfriend's Day!</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        /* ===== CSS ===== */
+        @import url('assets/Pap1.jpg/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fdeaf1 0%, #ffd6e7 100%);
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .page {
+            width: 100%;
+            max-width: 800px;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: none;
+        }
+        
+        .page.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.8s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #e83b8e;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: #e83b8e;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .photo-frame {
+            width: 320px;
+            height: 320px;
+            border: 15px solid white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            margin: 40px 0;
+            background-color: #fff;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            z-index: -1;
+            border-radius: 20px;
+            opacity: 0.7;
+        }
+        
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #e83b8e, #ff6b9e);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 8px 20px rgba(232, 59, 142, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to right, #ff6b9e, #e83b8e);
+            transition: all 0.4s;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(232, 59, 142, 0.5);
+        }
+        
+        /* Envelope Page */
+        .envelope-container {
+            perspective: 1000px;
+            width: 300px;
+            height: 200px;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .envelope {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: translateY(0);
+        }
+        
+        .envelope-front, .envelope-back, .envelope-flap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #fff1f6;
+            border: 2px solid #f8c6d9;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            backface-visibility: hidden;
+        }
+        
+        .envelope-front {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateZ(1px);
+            z-index: 3;
+            background: linear-gradient(135deg, #fff1f6 0%, #fad0e0 100%);
+        }
+        
+        .envelope-back {
+            transform: rotateX(0deg);
+            z-index: 1;
+            background: linear-gradient(135deg, #fad0e0 0%, #fff1f6 100%);
+        }
+        
+        .envelope-flap {
+            height: 60px;
+            transform-origin: bottom;
+            transform: rotateX(180deg);
+            z-index: 2;
+            background: linear-gradient(135deg, #ffcad4 0%, #fff1f6 100%);
+            border-bottom: none;
+        }
+        
+        .envelope.animating .envelope-flap {
+            animation: openFlap 1.2s forwards;
+        }
+        
+        .envelope.animating {
+            animation: envelopeOpen 1.2s forwards;
+        }
+        
+        @keyframes openFlap {
+            0% { transform: rotateX(180deg); }
+            50% { transform: rotateX(0deg); }
+            100% { transform: rotateX(0deg); }
+        }
+        
+        @keyframes envelopeOpen {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(-100px); }
+        }
+        
+        .heart-btn {
+            width: 60px;
+            height: 60px;
+            background-color: #e83b8e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(232, 59, 142, 0.4);
+            transition: all 0.3s;
+            z-index: 4;
+        }
+        
+        .heart-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .heart-btn i {
+            color: white;
+            font-size: 30px;
+        }
+        
+        .letter {
+            width: 280px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            margin: 30px auto;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.8s 1s;
+            z-index: 5;
+        }
+        
+        .letter.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .letter h3 {
+            font-family: 'Dancing Script', cursive;
+            color: #e83b8e;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .letter-content {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .signature {
+            text-align: right;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #e83b8e;
+            margin-top: 30px;
+        }
+        
+        /* Gallery Page */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            aspect-ratio: 1/1;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(232, 59, 142, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+        
+        .music-player {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 300px;
+        }
+        
+        .message-bubble {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 30px;
+            position: relative;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 80%;
+            animation: floatUp 3s infinite alternate;
+        }
+
+        .message-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20%;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid white;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        
+        .music-info {
+            margin-left: 15px;
+            text-align: left;
+        }
+        
+        .music-info h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .music-info p {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            .photo-frame {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            
+            .envelope-container {
+                width: 260px;
+                height: 180px;
+            }
+            
+            .letter {
+                width: 240px;
+                padding: 20px;
+            }
+        }
+        
+        /* Floating Hearts Animation */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(232, 59, 142, 0.7);
+            animation: float 10s linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HTML ===== -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <!-- Page 1: Cover -->
+    <div class="page active" id="page1">
+        <div class="header">
+            <h1>Happy Girlfriend's Day</h1>
+            <p>Untuk kekasihku yang paling berharga</p>
+        </div>
+        
+        <div class="photo-frame">
+            <img src="assets/Pap1.jpg" alt="Foto Cewekkk Terimuttt" />
+        </div>
+        
+        <button class="btn" onclick="nextPage()">Buka Pesan Khusus</button>
+    </div>
+    
+    <!-- Page 2: Envelope -->
+    <div class="page" id="page2">
+        <h2>Pesan Rahasia Untukmu</h2>
+        <p>Klik hati di dalam amplop untuk melihat pesan</p>
+        
+        <div class="envelope-container">
+            <div class="envelope" id="envelope">
+                <div class="envelope-front">
+                    <div class="heart-btn" onclick="openEnvelope()">
+                        <i>❤</i>
+                    </div>
+                </div>
+                <div class="envelope-back"></div>
+                <div class="envelope-flap"></div>
+            </div>
+        </div>
+        
+        <div class="letter" id="letter">
+            <h3>For Yumi</h3>
+            <div class="letter-content">
+                Selamat Hari Girlfriend's Day, sayangku!<br><br>
+                Selamat Hari Girlfriend, YUMIIIIIKU TERCINTAA!! 💖🌸
+
+Sayangkuu, cewe manja akuuu,
+di hari spesial ini aku mau bilang sesuatu yang gak bisa ditahan lagi dari hati aku yang paling dalam...
+
+KAMUU ITUU SEGALANYAAAA BUAT AKU!! 😭💕
+
+Makasih yaa sayangg udah jadi cewek tercantik, terimut, tergemesss, dan tergokil yang pernah hadir di hidup aku. Dari cara kamu ngambek kecil sampe senyum polos kamu yang bisa nyembuhin capek aku SEMUANYA BIKIN AKU MAKIN JATUH CINTA TIAP HARIII 😭💘
+
+Aku manja banget sama kamu, yaa… manja karena cuma sama kamu aku nemu kenyamanan yang gak pernah aku rasa sebelumnya. Kamu itu peluk hangat di malam yang dingin, kamu itu cahaya pas hati aku redup. Aku sukaa bangettt cara kamu merhatiin aku, cara kamu nanya “udah makan belum?”, cara kamu marahin aku manja banget ya ampun itu lucunya gak ketulungan 😭🫶
+
+Kamu cantik… sumpah, kamu CANTIK BANGETTT!
+Dari ujung rambut sampai ujung kaki.
+Dari cara kamu ngelirik sampai cara kamu ngomong “sayang” ke aku
+semuanya bikin aku MELT! 🥹💗
+Lucuuuuu, gemessssin, pokoknya kalau ada lomba cewek paling bikin cowoknya nempel,
+kamuuu juaranya no debattt!!! 🏆✨
+
+Aku minta maaf yaa kalau kadang aku masih suka ngerepotin kamu,
+masih belajar jadi cowok yang lebih baik. Tapi yakinlah,
+AKU GAK PERNAH BERHENTI BERJUANG buat jadi cowok terbaik buat kamu.
+
+Makasih yaaa udah tetap di sini, udah sabar sama aku, udah selalu temenin aku.
+Aku tuh bersyukur banget punya kamu, serius.
+Bersyukur sampe gak bisa diungkapin pake kata.
+Punya kamu tuh... anugerah yang gak bakal aku sia-siain.
+
+Aku cinta kamu, Yumi. Cinta yang tulus. Cinta yang gak main main.
+Cinta yang siap nemenin kamu susah senang, gelap terang,
+dan berdiri paling depan buat lindungin kamu. 🤍
+
+Aku pengin selamanya sama kamu.
+Bukan cuma pacaran doang.
+Tapi nikah.
+Bikin rumah kecil.
+Ada kamu di dapur masak mie, aku peluk dari belakang 😭
+Ada kamu tidur sambil ngulet, aku liatin sambil mikir “Alhamdulillah, ini bidadariku…”
+AKU PENGIN SEMUANYA SAMA KAMU, SELAMANYA.
+
+Selamat Hari Girlfriend yaaa, cewek tercinta aku!
+Kamu itu alasan aku semangat tiap hari. Kamu itu tujuan akhir perjuangan aku.
+Bersamamu aku gak takut apa-apa.
+
+Yumi…
+Kamu satu-satunya,
+yang aku harap,
+yang aku jaga,
+yang aku sayang,
+yang aku perjuangkan…
+dan yang akan aku nikahi suatu hari nanti. 💍🌷
+
+I LOVE YOU SO MUCH, YUMI!!!
+Dari cowokmu yang tergila-gila, tergemes-gemes, dan terobsesi banget sama kamu…
+
+Dari:
+Pahwiii yang ganteng ini:v 🐻🤍
+            </div>
+            <div class="signature">Love, Fahri</div>
+        </div>
+        
+        <button class="btn" onclick="nextPage()" id="nextBtn2" style="opacity: 0; pointer-events: none; position: relative; z-index: 10; margin-top: 100px;">Lanjut ke Galeri</button>
+    </div>
+    
+    <!-- Page 3: Gallery -->
+    <div class="page" id="page3">
+        <h2>Untuk Cewekku Tercinta</h2>
+        <p>Kenangan indah kita yang akan terus bertambah</p>
+        
+        <div class="message-bubble">
+            <p>Setiap momen bersamamu adalah cerita terindah dalam hidupku...</p>
+        </div>
+
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="assets/Pap2.jpg" alt="Cewekkkk Palinggg manissss bangetttttt satu duniaaa" />
+                <div class="heart-frame"></div>
+            </div>
+            <div class="gallery-item">
+                <img src="assets/pap3.jpg" alt=" Cewekkk Palingggg imutt banget sangat sangat imut seuniverse" />
+                <div class="heart-frame"></div>
+            </div>
+            <div class="gallery-item">
+                <img src="assets/pap4.jpg" alt="Cewekkk Yang Sangattt Palinggg Cantikkk Banget Semultiversee " />
+                <div class="heart-frame"></div>
+            </div>
+            <div class="gallery-item">
+                <img src="assets/pap5.jpg" alt="Pokoknyaaa semuanyaa cantik,imut,manis satu satunya di semua multiverse" />
+                <div class="heart-frame"></div>
+            </div>
+        </div>
+
+        <div class="message-bubble">
+            <p>Aku akan selalu mencintaimu hari ini, besok, dan selamanya ❤️</p>
+        </div>
+        
+        <div class="music-player">
+            <div class="play-btn" onclick="toggleMusic()">
+                <i id="playIcon">▶</i>
+            </div>
+            <div class="music-info">
+                <h3>Lagu Untukmu</h3>
+                <p>Sedang diputar: we fell in love in october - girl in red</p>
+            </div>
+        </div>
+        
+        <button class="btn" onclick="goToFirstPage()">Kembali ke Awal</button>
+    </div>
+    
+    <audio id="bgMusic" loop>
+        <source src="assets/Mygirl.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ===== JavaScript ===== -->
+    <script>
+        // Current page tracker
+        let currentPage = 1;
+        const totalPages = 3;
+        const bgMusic = document.getElementById('bgMusic');
+        let isMusicPlaying = false;
+        
+        // Initialize floating hearts
+        createHearts();
+        
+        function createHearts() {
+            const heartsContainer = document.getElementById('floatingHearts');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = 5 + Math.random() * 10 + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = 10 + Math.random() * 20 + 'px';
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        function nextPage() {
+            document.getElementById(`page${currentPage}`).classList.remove('active');
+            currentPage = currentPage % totalPages + 1;
+            document.getElementById(`page${currentPage}`).classList.add('active');
+            
+            if (currentPage === 3) {
+                // Start music when reaching gallery page
+                toggleMusic();
+            }
+        }
+        
+        function goToFirstPage() {
+            document.getElementById(`page${currentPage}`).classList.remove('active');
+            currentPage = 1;
+            document.getElementById(`page${currentPage}`).classList.add('active');
+            
+            // Pause music when going back to first page
+            if (isMusicPlaying) {
+                toggleMusic();
+            }
+        }
+        
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const letter = document.getElementById('letter');
+            const nextBtn = document.getElementById('nextBtn2');
+            
+            envelope.classList.add('animating');
+            setTimeout(() => {
+                letter.classList.add('show');
+                nextBtn.style.opacity = '1';
+                nextBtn.style.pointerEvents = 'auto';
+            }, 1000);
+        }
+        
+        function toggleMusic() {
+            const playIcon = document.getElementById('playIcon');
+            
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                playIcon.textContent = '▶';
+            } else {
+                bgMusic.play();
+                playIcon.textContent = '⏸';
+            }
+            
+            isMusicPlaying = !isMusicPlaying;
+        }
+        
+        // Preload images for better performance
+        window.onload = function() {
+            const images = [
+                'https://placehold.co/600x600/ffcad4/e83b8e',
+                'https://placehold.co/600x600/e83b8e/ffffff',
+                'https://placehold.co/600x600/ffcad4/333333',
+                'https://placehold.co/600x600/f8c6d9/ffffff',
+                'https://placehold.co/600x600/ff6b9e/ffffff'
+            ];
+            
+            images.forEach(img => {
+                (new Image()).src = img;
+            });
+        };
+    </script>
+</body>
+</html>
